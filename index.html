@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+   <body>
+      <style>
+         footer
+         {
+         font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+         font-size:small;
+         margin-top:100px;
+         }
+      </style>
+      <center>
+         <h1>ATM</h1>
+         <p id="header">Please enter your card number</p>
+         <div id="change">
+            <input id="card" type="number" size="16" min="0" max="9999999999999999" step="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57' >
+            <button type="button" onclick="myCard()">Submit</button>
+         </div>
+         <br>
+         <b> 
+         <div id="error"> </div>
+         <b>
+         <footer>
+            Coded by Shiva Charan <script>document.write(new Date().getFullYear())</script>
+         </footer>
+      </center>
+      <script>
+         var balance = 1000;
+         
+          function myDefault()
+           {
+           document.getElementById("header").innerHTML= 'Please enter your card number';
+           document.getElementById("change").innerHTML= '<input id="card" name="card" type="number" size="16" min="0" max="9999999999999999" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" ><button type="button" onclick="myCard()">Submit</button>';
+           document.getElementById("error").innerHTML= '';
+          
+           }
+         
+         
+         function myCard() 
+           {    
+           var x = document.getElementById("card").value;
+           if (isNaN(x) || x.length != 16 ) 
+             {
+             document.getElementById("error").innerHTML = 'Please Enter your 16-Digit ATM Card Number';
+             } 
+           else if (x != "9299455566667745") 
+             {
+             document.getElementById("error").innerHTML = 'Please Enter the right ATM Card Number';
+             } 
+         
+           else 
+             {
+               document.getElementById("header").innerHTML = 'Please Enter your 4 Digit Pin';
+               document.getElementById("error").innerHTML = '';
+               document.getElementById("change").innerHTML = '<input id="pin" type="password" size="4" min="000" max="9999" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" ><button type="button" onclick="myPin()">Submit</button><br><br><button type="button" onclick="myDefault()">Exit</button>';
+         
+             }
+            
+           }
+           /*Coded by Shiva Charan - CollegeStash */
+           function myPin()
+             {
+               var y = document.getElementById("pin").value;
+                 if (isNaN(y) || y.length != 4)
+               {
+                 document.getElementById("error").innerHTML = 'Please Enter your 4-Digit ATM Pin'; 
+                }
+               
+               else if (y!= "1993")
+               {
+                 document.getElementById("error").innerHTML = 'Please Enter the right ATM PIN'; 
+                }
+               else
+               {    if ( balance >= 10)
+                    {
+               	  document.getElementById("header").innerHTML = "Please enter the amount to withdraw. Minimum that can be drawn is 10$. Amount must be in multiples of 10. Your current balance is "+balance;
+               	  document.getElementById("change").innerHTML = '<input id="withdraw" type="number" size="4" min="10" max="1000" step="10" value="10" onkeypress="return event.charCode >= 48 && event.charCode <= 57" ><button type="button" onclick="myWithdraw()">Submit</button><br><br><button type="button" onclick="myDefault()">Exit</button>'; 
+               	  }
+             	  
+               	  else { 
+               	  document.getElementById("header").innerHTML = "Your balance is "+balance+"$. You cannot withdraw";
+               	  document.getElementById("change").innerHTML = '<br><br><button type="button" onclick="myDefault()">Exit</button>';
+               	   }
+                    
+                     document.getElementById("error").innerHTML = '';
+                   
+               }
+             }
+         
+         function myWithdraw()
+           {
+           var z = document.getElementById("withdraw").value;
+           if (isNaN(z) || z == "" ) 
+           {
+         	document.getElementById("error").innerHTML = "Please enter a valid amount!";   
+            }
+           
+           else if ( z < 10)
+           {
+             document.getElementById("error").innerHTML = "You cannot withdraw below 10$"; 
+            }
+           else if (z%10 != 0)
+           {
+             document.getElementById("error").innerHTML = "Withdrawal amount must be a multiple of 10"; 
+            }
+           else if (z > balance)
+           {
+             document.getElementById("error").innerHTML = "You have insufficient balance: "+balance;
+            }
+         
+           else
+           {   balance = balance - z;
+             if (balance >= 10) {
+         	  document.getElementById("header").innerHTML = z+"$ have been successfully withdrawn from your account. Your balance is "+balance+"$. If you want to withdraw further then, enter the amount below.";
+         	  document.getElementById("change").innerHTML = '<input id="withdraw" type="number" size="4" min="10" max="1000" step="10" value="10" onkeypress="return event.charCode >= 48 && event.charCode <= 57" ><button type="button" onclick="myWithdraw()">Submit</button><br><br><button type="button" onclick="myDefault()">Exit</button>';
+         	     }
+         	  else {
+               document.getElementById("header").innerHTML = z+"$ have been successfully withdrawn from your account. Your balance is "+balance+"$. You cannot withdraw further";
+         	  document.getElementById("change").innerHTML = '<br><br><button type="button" onclick="myDefault()">Exit</button>'; 
+         	  }
+         	  
+         	  document.getElementById("error").innerHTML = '';
+         	   
+                
+           }
+           }
+      </script>
+   </body>
+</html>
